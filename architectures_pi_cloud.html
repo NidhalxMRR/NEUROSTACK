@@ -1,0 +1,446 @@
+
+<style>
+.tab-bar{display:flex;gap:4px;margin-bottom:16px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.tab{font-size:12px;padding:7px 14px;cursor:pointer;border-bottom:2px solid transparent;color:var(--color-text-secondary);background:none;border-top:none;border-left:none;border-right:none;margin-bottom:-1px;transition:color .15s;white-space:nowrap}
+.tab.active{color:var(--color-text-primary);border-bottom-color:var(--color-text-primary);font-weight:500}
+.panel{display:none}.panel.active{display:block}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 4px;font-size:12px;color:var(--color-text-secondary)}
+.leg-item{display:flex;align-items:center;gap:5px}
+.leg-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+</style>
+
+<h2 class="sr-only">Architectures physique, logique et globale du projet PI Cloud ESPRIT sur 6 PC</h2>
+
+<div style="padding:1rem 0 0">
+<div class="tab-bar">
+  <button class="tab active" onclick="show('phys')">🖥️ Architecture physique</button>
+  <button class="tab" onclick="show('logi')">🧩 Architecture logique</button>
+  <button class="tab" onclick="show('glob')">🌐 Architecture globale</button>
+</div>
+
+<div id="panel-phys" class="panel active">
+<div class="legend">
+  <span class="leg-item"><span class="leg-dot" style="background:#185FA5"></span>Controller node</span>
+  <span class="leg-item"><span class="leg-dot" style="background:#0F6E56"></span>Compute nodes</span>
+  <span class="leg-item"><span class="leg-dot" style="background:#534AB7"></span>VMs</span>
+  <span class="leg-item"><span class="leg-dot" style="background:#BA7517"></span>Storage</span>
+  <span class="leg-item"><span class="leg-dot" style="background:#888780"></span>Réseau Wi-Fi</span>
+</div>
+<svg width="100%" viewBox="0 0 680 560" role="img">
+  <title>Architecture physique PI Cloud — 6 PC</title>
+  <desc>1 controller PC avec 2 VMs et 2 storages, 4 compute PC connectés via Wi-Fi, et 1 PC Ansible/DevOps</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- Wi-Fi cloud label -->
+  <rect x="60" y="16" width="560" height="530" rx="20" fill="none" stroke="#888780" stroke-width="1" stroke-dasharray="6 4" opacity="0.5"/>
+  <text class="ts" x="340" y="36" text-anchor="middle" fill="#888780">Réseau Wi-Fi partagé (point d'accès)</text>
+
+  <!-- ══ CONTROLLER PC (Walid) ══ -->
+  <g class="node" onclick="sendPrompt('Explique le rôle du controller node OpenStack en détail')">
+    <rect x="80" y="50" width="200" height="230" rx="12" fill="#E6F1FB" stroke="#185FA5" stroke-width="1.5"/>
+    <text class="th" x="180" y="74" text-anchor="middle" fill="#0C447C">PC Controller</text>
+    <text class="ts" x="180" y="90" text-anchor="middle" fill="#185FA5">Walid — 64 Go RAM</text>
+
+    <!-- VM 1 -->
+    <rect x="96" y="104" width="78" height="58" rx="6" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
+    <text class="ts" x="135" y="126" text-anchor="middle" fill="#3C3489">VM 1</text>
+    <text class="ts" x="135" y="142" text-anchor="middle" fill="#534AB7">OpenStack</text>
+    <text class="ts" x="135" y="155" text-anchor="middle" fill="#534AB7">Controller</text>
+
+    <!-- VM 2 -->
+    <rect x="186" y="104" width="78" height="58" rx="6" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
+    <text class="ts" x="225" y="126" text-anchor="middle" fill="#3C3489">VM 2</text>
+    <text class="ts" x="225" y="142" text-anchor="middle" fill="#534AB7">K8s Control</text>
+    <text class="ts" x="225" y="155" text-anchor="middle" fill="#534AB7">Plane</text>
+
+    <!-- Storage 1 -->
+    <rect x="96" y="176" width="78" height="44" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+    <text class="ts" x="135" y="195" text-anchor="middle" fill="#633806">Storage 1</text>
+    <text class="ts" x="135" y="210" text-anchor="middle" fill="#BA7517">Cinder / etcd</text>
+
+    <!-- Storage 2 -->
+    <rect x="186" y="176" width="78" height="44" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+    <text class="ts" x="225" y="195" text-anchor="middle" fill="#633806">Storage 2</text>
+    <text class="ts" x="225" y="210" text-anchor="middle" fill="#BA7517">Glance / Swift</text>
+
+    <!-- Services -->
+    <rect x="96" y="232" width="168" height="36" rx="6" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+    <text class="ts" x="180" y="248" text-anchor="middle" fill="#0C447C">Keystone · Horizon · Neutron</text>
+    <text class="ts" x="180" y="260" text-anchor="middle" fill="#185FA5">Nova · Octavia · Heat</text>
+  </g>
+
+  <!-- ══ COMPUTE 1 (Ghada) ══ -->
+  <g class="node" onclick="sendPrompt('Explique le rôle du compute node 1 dans OpenStack')">
+    <rect x="320" y="50" width="160" height="140" rx="10" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1.2"/>
+    <text class="th" x="400" y="72" text-anchor="middle" fill="#085041">Compute 1</text>
+    <text class="ts" x="400" y="87" text-anchor="middle" fill="#0F6E56">Ghada — 32 Go</text>
+    <rect x="336" y="98" width="64" height="36" rx="5" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+    <text class="ts" x="368" y="114" text-anchor="middle" fill="#3C3489">Nova</text>
+    <text class="ts" x="368" y="126" text-anchor="middle" fill="#534AB7">Compute</text>
+    <rect x="410" y="98" width="54" height="36" rx="5" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+    <text class="ts" x="437" y="114" text-anchor="middle" fill="#3C3489">K8s</text>
+    <text class="ts" x="437" y="126" text-anchor="middle" fill="#534AB7">Worker</text>
+    <rect x="336" y="146" width="128" height="28" rx="5" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+    <text class="ts" x="400" y="164" text-anchor="middle" fill="#085041">Heat · Terraform · IaC</text>
+  </g>
+
+  <!-- ══ COMPUTE 2 (Nidhal) ══ -->
+  <g class="node" onclick="sendPrompt('Explique le rôle du compute node 2 monitoring et backup')">
+    <rect x="500" y="50" width="160" height="140" rx="10" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1.2"/>
+    <text class="th" x="580" y="72" text-anchor="middle" fill="#085041">Compute 2</text>
+    <text class="ts" x="580" y="87" text-anchor="middle" fill="#0F6E56">Nidhal — 24 Go</text>
+    <rect x="516" y="98" width="60" height="36" rx="5" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.8"/>
+    <text class="ts" x="546" y="114" text-anchor="middle" fill="#633806">Prometheus</text>
+    <text class="ts" x="546" y="126" text-anchor="middle" fill="#BA7517">Grafana</text>
+    <rect x="586" y="98" width="58" height="36" rx="5" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+    <text class="ts" x="615" y="114" text-anchor="middle" fill="#3C3489">Velero</text>
+    <text class="ts" x="615" y="126" text-anchor="middle" fill="#534AB7">etcd snap.</text>
+    <rect x="516" y="146" width="128" height="28" rx="5" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+    <text class="ts" x="580" y="164" text-anchor="middle" fill="#085041">K8s Worker · Alertmanager</text>
+  </g>
+
+  <!-- ══ COMPUTE 3 (Samah) ══ -->
+  <g class="node" onclick="sendPrompt('Explique le rôle du noeud Ansible dans larchitecture')">
+    <rect x="320" y="220" width="160" height="120" rx="10" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1.2"/>
+    <text class="th" x="400" y="242" text-anchor="middle" fill="#085041">Compute 3</text>
+    <text class="ts" x="400" y="257" text-anchor="middle" fill="#0F6E56">Samah — 16 Go</text>
+    <rect x="336" y="268" width="128" height="30" rx="5" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.8"/>
+    <text class="ts" x="400" y="281" text-anchor="middle" fill="#085041">Ansible Control Node</text>
+    <text class="ts" x="400" y="293" text-anchor="middle" fill="#0F6E56">Playbooks · Inventaire</text>
+    <rect x="336" y="306" width="128" height="24" rx="5" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+    <text class="ts" x="400" y="322" text-anchor="middle" fill="#534AB7">K8s Worker</text>
+  </g>
+
+  <!-- ══ COMPUTE 4 (Islem) ══ -->
+  <g class="node" onclick="sendPrompt('Explique le rôle du noeud développement Docker et FastAPI')">
+    <rect x="500" y="220" width="160" height="120" rx="10" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1.2"/>
+    <text class="th" x="580" y="242" text-anchor="middle" fill="#085041">Compute 4</text>
+    <text class="ts" x="580" y="257" text-anchor="middle" fill="#0F6E56">Islem — 16 Go</text>
+    <rect x="516" y="268" width="60" height="30" rx="5" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.8"/>
+    <text class="ts" x="546" y="281" text-anchor="middle" fill="#633806">Docker</text>
+    <text class="ts" x="546" y="293" text-anchor="middle" fill="#BA7517">Registry</text>
+    <rect x="586" y="268" width="58" height="30" rx="5" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.8"/>
+    <text class="ts" x="615" y="281" text-anchor="middle" fill="#633806">FastAPI</text>
+    <text class="ts" x="615" y="293" text-anchor="middle" fill="#BA7517">React + IA</text>
+    <rect x="516" y="306" width="128" height="24" rx="5" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+    <text class="ts" x="580" y="322" text-anchor="middle" fill="#534AB7">K8s Worker</text>
+  </g>
+
+  <!-- ══ ARROWS Wi-Fi ══ -->
+  <line x1="280" y1="165" x2="318" y2="165" stroke="#888780" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#arrow)" opacity="0.7"/>
+  <line x1="280" y1="165" x2="498" y2="165" stroke="#888780" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#arrow)" opacity="0.7"/>
+  <line x1="280" y1="165" x2="318" y2="310" stroke="#888780" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#arrow)" opacity="0.5"/>
+  <line x1="280" y1="165" x2="498" y2="310" stroke="#888780" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#arrow)" opacity="0.5"/>
+
+  <!-- Ansible arrows -->
+  <path d="M400 340 L400 380 L580 380 L580 342" fill="none" stroke="#0F6E56" stroke-width="1" stroke-dasharray="3 3" marker-end="url(#arrow)" opacity="0.5"/>
+  <text class="ts" x="490" y="374" text-anchor="middle" fill="#0F6E56">SSH (Ansible)</text>
+
+  <!-- Légende PC -->
+  <text class="ts" x="180" y="300" text-anchor="middle" fill="#0C447C" font-weight="500">PC 1 — Controller</text>
+  <text class="ts" x="400" y="210" text-anchor="middle" fill="#085041">PC 2</text>
+  <text class="ts" x="580" y="210" text-anchor="middle" fill="#085041">PC 3</text>
+  <text class="ts" x="400" y="360" text-anchor="middle" fill="#085041">PC 4</text>
+  <text class="ts" x="580" y="360" text-anchor="middle" fill="#085041">PC 5</text>
+
+  <!-- Users -->
+  <rect x="80" y="430" width="520" height="50" rx="10" fill="none" stroke="#888780" stroke-width="0.8" stroke-dasharray="4 3" opacity="0.6"/>
+  <text class="ts" x="340" y="450" text-anchor="middle" fill="#888780">Utilisateurs (navigateur web)</text>
+  <text class="ts" x="340" y="468" text-anchor="middle" fill="#888780">Accès via IP flottante OpenStack → Kubernetes Ingress → FastAPI + React</text>
+
+  <line x1="580" y1="342" x2="580" y2="430" stroke="#185FA5" stroke-width="1" marker-end="url(#arrow)" opacity="0.5"/>
+  <line x1="400" y1="342" x2="340" y2="430" stroke="#185FA5" stroke-width="1" marker-end="url(#arrow)" opacity="0.4"/>
+
+  <!-- Légende réseau -->
+  <text class="ts" x="340" y="518" text-anchor="middle" fill="#888780" opacity="0.7">Toutes les machines communiquent via le même point d'accès Wi-Fi</text>
+</svg>
+</div>
+
+<div id="panel-logi" class="panel">
+<div class="legend">
+  <span class="leg-item"><span class="leg-dot" style="background:#185FA5"></span>IaaS (OpenStack)</span>
+  <span class="leg-item"><span class="leg-dot" style="background:#0F6E56"></span>PaaS (K8s + Docker)</span>
+  <span class="leg-item"><span class="leg-dot" style="background:#534AB7"></span>SaaS (Application)</span>
+  <span class="leg-item"><span class="leg-dot" style="background:#BA7517"></span>Automatisation</span>
+</div>
+<svg width="100%" viewBox="0 0 680 580" role="img">
+  <title>Architecture logique PI Cloud — couches IaaS PaaS SaaS</title>
+  <desc>Trois couches : IaaS OpenStack en bas, PaaS Kubernetes au milieu, SaaS application en haut, avec couche automatisation transversale</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- ══ COUCHE PHYSIQUE ══ -->
+  <rect x="40" y="510" width="600" height="50" rx="10" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="1"/>
+  <text class="th" x="340" y="531" text-anchor="middle" fill="#444441">Couche physique</text>
+  <text class="ts" x="340" y="548" text-anchor="middle" fill="#5F5E5A">6 PC Ubuntu 22.04 · Point d'accès Wi-Fi · KVM/QEMU</text>
+
+  <!-- ══ COUCHE IaaS ══ -->
+  <rect x="40" y="370" width="600" height="128" rx="12" fill="#E6F1FB" stroke="#185FA5" stroke-width="1.5"/>
+  <text class="th" x="80" y="393" fill="#0C447C">IaaS — OpenStack</text>
+  <text class="ts" x="80" y="408" fill="#185FA5">Infrastructure as a Service</text>
+
+  <g class="node" onclick="sendPrompt('Explique le rôle de Nova dans OpenStack')">
+    <rect x="56" y="416" width="84" height="44" rx="6" fill="#185FA5" stroke="#0C447C" stroke-width="0.5"/>
+    <text class="th" x="98" y="434" text-anchor="middle" fill="#E6F1FB">Nova</text>
+    <text class="ts" x="98" y="448" text-anchor="middle" fill="#B5D4F4">Compute</text>
+  </g>
+  <g class="node" onclick="sendPrompt('Explique le rôle de Neutron dans OpenStack')">
+    <rect x="150" y="416" width="84" height="44" rx="6" fill="#185FA5" stroke="#0C447C" stroke-width="0.5"/>
+    <text class="th" x="192" y="434" text-anchor="middle" fill="#E6F1FB">Neutron</text>
+    <text class="ts" x="192" y="448" text-anchor="middle" fill="#B5D4F4">Réseau</text>
+  </g>
+  <g class="node" onclick="sendPrompt('Explique le rôle de Cinder dans OpenStack')">
+    <rect x="244" y="416" width="84" height="44" rx="6" fill="#185FA5" stroke="#0C447C" stroke-width="0.5"/>
+    <text class="th" x="286" y="434" text-anchor="middle" fill="#E6F1FB">Cinder</text>
+    <text class="ts" x="286" y="448" text-anchor="middle" fill="#B5D4F4">Stockage</text>
+  </g>
+  <g class="node" onclick="sendPrompt('Explique le rôle de Keystone dans OpenStack')">
+    <rect x="338" y="416" width="84" height="44" rx="6" fill="#185FA5" stroke="#0C447C" stroke-width="0.5"/>
+    <text class="th" x="380" y="434" text-anchor="middle" fill="#E6F1FB">Keystone</text>
+    <text class="ts" x="380" y="448" text-anchor="middle" fill="#B5D4F4">Auth IAM</text>
+  </g>
+  <g class="node" onclick="sendPrompt('Explique Octavia et Heat dans OpenStack')">
+    <rect x="432" y="416" width="84" height="44" rx="6" fill="#185FA5" stroke="#0C447C" stroke-width="0.5"/>
+    <text class="th" x="474" y="434" text-anchor="middle" fill="#E6F1FB">Octavia</text>
+    <text class="ts" x="474" y="448" text-anchor="middle" fill="#B5D4F4">Load Balancer</text>
+  </g>
+  <g class="node" onclick="sendPrompt('Explique Horizon dans OpenStack')">
+    <rect x="526" y="416" width="84" height="44" rx="6" fill="#185FA5" stroke="#0C447C" stroke-width="0.5"/>
+    <text class="th" x="568" y="434" text-anchor="middle" fill="#E6F1FB">Horizon</text>
+    <text class="ts" x="568" y="448" text-anchor="middle" fill="#B5D4F4">Dashboard</text>
+  </g>
+
+  <text class="ts" x="340" y="482" text-anchor="middle" fill="#185FA5">IP flottantes · VMs · Volumes · Groupes de sécurité · Multi-tenant</text>
+
+  <!-- IaaS → PaaS -->
+  <line x1="340" y1="370" x2="340" y2="340" stroke="#185FA5" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ══ COUCHE PaaS ══ -->
+  <rect x="40" y="210" width="600" height="148" rx="12" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1.5"/>
+  <text class="th" x="80" y="233" fill="#085041">PaaS — Kubernetes + Docker</text>
+  <text class="ts" x="80" y="248" fill="#0F6E56">Platform as a Service</text>
+
+  <g class="node" onclick="sendPrompt('Comment fonctionne Kubernetes dans ce projet')">
+    <rect x="56" y="256" width="120" height="52" rx="6" fill="#0F6E56" stroke="#085041" stroke-width="0.5"/>
+    <text class="th" x="116" y="277" text-anchor="middle" fill="#E1F5EE">Kubernetes</text>
+    <text class="ts" x="116" y="291" text-anchor="middle" fill="#9FE1CB">Orchestration</text>
+    <text class="ts" x="116" y="302" text-anchor="middle" fill="#9FE1CB">HPA · self-healing</text>
+  </g>
+  <g class="node" onclick="sendPrompt('Comment Docker est utilisé dans ce projet')">
+    <rect x="190" y="256" width="110" height="52" rx="6" fill="#0F6E56" stroke="#085041" stroke-width="0.5"/>
+    <text class="th" x="245" y="277" text-anchor="middle" fill="#E1F5EE">Docker</text>
+    <text class="ts" x="245" y="291" text-anchor="middle" fill="#9FE1CB">Conteneurisation</text>
+    <text class="ts" x="245" y="302" text-anchor="middle" fill="#9FE1CB">Images · Registry</text>
+  </g>
+  <g class="node" onclick="sendPrompt('Comment fonctionne le CI/CD GitLab dans ce projet')">
+    <rect x="314" y="256" width="110" height="52" rx="6" fill="#0F6E56" stroke="#085041" stroke-width="0.5"/>
+    <text class="th" x="369" y="277" text-anchor="middle" fill="#E1F5EE">GitLab CI/CD</text>
+    <text class="ts" x="369" y="291" text-anchor="middle" fill="#9FE1CB">Pipeline build</text>
+    <text class="ts" x="369" y="302" text-anchor="middle" fill="#9FE1CB">Deploy auto</text>
+  </g>
+  <g class="node" onclick="sendPrompt('Comment Heat est utilisé pour l IaC dans ce projet')">
+    <rect x="438" y="256" width="82" height="52" rx="6" fill="#0F6E56" stroke="#085041" stroke-width="0.5"/>
+    <text class="th" x="479" y="277" text-anchor="middle" fill="#E1F5EE">Heat</text>
+    <text class="ts" x="479" y="291" text-anchor="middle" fill="#9FE1CB">IaC templates</text>
+    <text class="ts" x="479" y="302" text-anchor="middle" fill="#9FE1CB">Auto-scaling</text>
+  </g>
+  <g class="node" onclick="sendPrompt('Comment Prometheus et Grafana sont utilisés')">
+    <rect x="532" y="256" width="86" height="52" rx="6" fill="#0F6E56" stroke="#085041" stroke-width="0.5"/>
+    <text class="th" x="575" y="274" text-anchor="middle" fill="#E1F5EE">Prometheus</text>
+    <text class="ts" x="575" y="289" text-anchor="middle" fill="#9FE1CB">Grafana</text>
+    <text class="ts" x="575" y="303" text-anchor="middle" fill="#9FE1CB">Monitoring</text>
+  </g>
+
+  <text class="ts" x="340" y="344" text-anchor="middle" fill="#0F6E56">Pods · Namespaces · Services · Ingress · Velero backup · CoreDNS</text>
+
+  <!-- PaaS → SaaS -->
+  <line x1="340" y1="210" x2="340" y2="180" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ══ COUCHE SaaS ══ -->
+  <rect x="40" y="70" width="600" height="128" rx="12" fill="#EEEDFE" stroke="#534AB7" stroke-width="1.5"/>
+  <text class="th" x="80" y="93" fill="#26215C">SaaS — Application web + IA</text>
+  <text class="ts" x="80" y="108" fill="#534AB7">Software as a Service</text>
+
+  <g class="node" onclick="sendPrompt('Explique comment FastAPI est utilisé dans ce projet')">
+    <rect x="56" y="116" width="110" height="52" rx="6" fill="#534AB7" stroke="#3C3489" stroke-width="0.5"/>
+    <text class="th" x="111" y="137" text-anchor="middle" fill="#EEEDFE">FastAPI</text>
+    <text class="ts" x="111" y="151" text-anchor="middle" fill="#CECBF6">Backend REST</text>
+    <text class="ts" x="111" y="163" text-anchor="middle" fill="#CECBF6">Python async</text>
+  </g>
+  <g class="node" onclick="sendPrompt('Explique comment React est utilisé dans ce projet')">
+    <rect x="178" y="116" width="110" height="52" rx="6" fill="#534AB7" stroke="#3C3489" stroke-width="0.5"/>
+    <text class="th" x="233" y="137" text-anchor="middle" fill="#EEEDFE">React</text>
+    <text class="ts" x="233" y="151" text-anchor="middle" fill="#CECBF6">Frontend SPA</text>
+    <text class="ts" x="233" y="163" text-anchor="middle" fill="#CECBF6">Dashboard web</text>
+  </g>
+  <g class="node" onclick="sendPrompt('Explique lIA intégrée dans lapplication SDG')">
+    <rect x="300" y="116" width="110" height="52" rx="6" fill="#534AB7" stroke="#3C3489" stroke-width="0.5"/>
+    <text class="th" x="355" y="137" text-anchor="middle" fill="#EEEDFE">IA Python</text>
+    <text class="ts" x="355" y="151" text-anchor="middle" fill="#CECBF6">ML model</text>
+    <text class="ts" x="355" y="163" text-anchor="middle" fill="#CECBF6">Prédiction SDG</text>
+  </g>
+  <g class="node" onclick="sendPrompt('Explique la base de données PostgreSQL dans ce projet')">
+    <rect x="422" y="116" width="100" height="52" rx="6" fill="#534AB7" stroke="#3C3489" stroke-width="0.5"/>
+    <text class="th" x="472" y="137" text-anchor="middle" fill="#EEEDFE">PostgreSQL</text>
+    <text class="ts" x="472" y="151" text-anchor="middle" fill="#CECBF6">Base de données</text>
+    <text class="ts" x="472" y="163" text-anchor="middle" fill="#CECBF6">Volumes Cinder</text>
+  </g>
+  <g class="node" onclick="sendPrompt('Explique comment les utilisateurs accèdent à lapplication')">
+    <rect x="534" y="116" width="84" height="52" rx="6" fill="#534AB7" stroke="#3C3489" stroke-width="0.5"/>
+    <text class="th" x="576" y="137" text-anchor="middle" fill="#EEEDFE">Ingress</text>
+    <text class="ts" x="576" y="151" text-anchor="middle" fill="#CECBF6">NGINX</text>
+    <text class="ts" x="576" y="163" text-anchor="middle" fill="#CECBF6">TLS · Routing</text>
+  </g>
+
+  <!-- Ansible transversal -->
+  <rect x="40" y="185" width="90" height="22" rx="4" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.8"/>
+  <text class="ts" x="85" y="200" text-anchor="middle" fill="#633806">Ansible (SSH)</text>
+  <line x1="130" y1="196" x2="200" y2="196" stroke="#BA7517" stroke-width="0.8" stroke-dasharray="3 2" marker-end="url(#arrow)" opacity="0.6"/>
+
+  <line x1="340" y1="510" x2="340" y2="498" stroke="#888780" stroke-width="1.5" marker-end="url(#arrow)"/>
+</svg>
+</div>
+
+<div id="panel-glob" class="panel">
+<div class="legend">
+  <span class="leg-item"><span class="leg-dot" style="background:#185FA5"></span>IaaS</span>
+  <span class="leg-item"><span class="leg-dot" style="background:#0F6E56"></span>PaaS</span>
+  <span class="leg-item"><span class="leg-dot" style="background:#534AB7"></span>SaaS</span>
+  <span class="leg-item"><span class="leg-dot" style="background:#BA7517"></span>Automatisation</span>
+  <span class="leg-item"><span class="leg-dot" style="background:#888780"></span>Utilisateurs</span>
+</div>
+<svg width="100%" viewBox="0 0 680 560" role="img">
+  <title>Architecture globale PI Cloud — vue complète du système</title>
+  <desc>Vue globale montrant le flux depuis les utilisateurs jusqu à l application SaaS en passant par Kubernetes PaaS et OpenStack IaaS sur le matériel physique</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- Utilisateurs -->
+  <g class="node" onclick="sendPrompt('Comment un utilisateur accède à lapplication PI Cloud')">
+    <rect x="240" y="20" width="200" height="44" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="1"/>
+    <text class="th" x="340" y="38" text-anchor="middle" fill="#2C2C2A">Utilisateurs</text>
+    <text class="ts" x="340" y="52" text-anchor="middle" fill="#5F5E5A">Navigateur web · IP flottante</text>
+  </g>
+  <line x1="340" y1="64" x2="340" y2="84" stroke="#888780" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- SaaS -->
+  <g class="node" onclick="sendPrompt('Explique la couche SaaS du projet PI Cloud')">
+    <rect x="100" y="84" width="480" height="80" rx="10" fill="#EEEDFE" stroke="#534AB7" stroke-width="1.5"/>
+    <text class="th" x="200" y="104" text-anchor="middle" fill="#26215C">SaaS</text>
+    <text class="ts" x="200" y="120" text-anchor="middle" fill="#534AB7">Application web + IA</text>
+    <rect x="116" y="108" width="70" height="46" rx="5" fill="#534AB7" stroke="#3C3489" stroke-width="0.5"/>
+    <text class="ts" x="151" y="126" text-anchor="middle" fill="#EEEDFE">FastAPI</text>
+    <text class="ts" x="151" y="140" text-anchor="middle" fill="#CECBF6">Backend</text>
+    <rect x="196" y="108" width="70" height="46" rx="5" fill="#534AB7" stroke="#3C3489" stroke-width="0.5"/>
+    <text class="ts" x="231" y="126" text-anchor="middle" fill="#EEEDFE">React</text>
+    <text class="ts" x="231" y="140" text-anchor="middle" fill="#CECBF6">Frontend</text>
+    <rect x="276" y="108" width="70" height="46" rx="5" fill="#534AB7" stroke="#3C3489" stroke-width="0.5"/>
+    <text class="ts" x="311" y="126" text-anchor="middle" fill="#EEEDFE">IA Python</text>
+    <text class="ts" x="311" y="140" text-anchor="middle" fill="#CECBF6">ML + SDG</text>
+    <rect x="356" y="108" width="70" height="46" rx="5" fill="#534AB7" stroke="#3C3489" stroke-width="0.5"/>
+    <text class="ts" x="391" y="126" text-anchor="middle" fill="#EEEDFE">PostgreSQL</text>
+    <text class="ts" x="391" y="140" text-anchor="middle" fill="#CECBF6">Données</text>
+    <rect x="436" y="108" width="70" height="46" rx="5" fill="#534AB7" stroke="#3C3489" stroke-width="0.5"/>
+    <text class="ts" x="471" y="126" text-anchor="middle" fill="#EEEDFE">GitLab</text>
+    <text class="ts" x="471" y="140" text-anchor="middle" fill="#CECBF6">CI/CD</text>
+    <rect x="516" y="108" width="52" height="46" rx="5" fill="#534AB7" stroke="#3C3489" stroke-width="0.5"/>
+    <text class="ts" x="542" y="126" text-anchor="middle" fill="#EEEDFE">Ingress</text>
+    <text class="ts" x="542" y="140" text-anchor="middle" fill="#CECBF6">TLS</text>
+  </g>
+  <line x1="340" y1="164" x2="340" y2="184" stroke="#534AB7" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- PaaS -->
+  <g class="node" onclick="sendPrompt('Explique la couche PaaS Kubernetes Docker du projet PI Cloud')">
+    <rect x="100" y="184" width="480" height="80" rx="10" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1.5"/>
+    <text class="th" x="200" y="204" text-anchor="middle" fill="#085041">PaaS</text>
+    <text class="ts" x="200" y="220" text-anchor="middle" fill="#0F6E56">Kubernetes + Docker</text>
+    <rect x="116" y="207" width="82" height="46" rx="5" fill="#0F6E56" stroke="#085041" stroke-width="0.5"/>
+    <text class="ts" x="157" y="226" text-anchor="middle" fill="#E1F5EE">Kubernetes</text>
+    <text class="ts" x="157" y="240" text-anchor="middle" fill="#9FE1CB">HPA · self-heal</text>
+    <rect x="208" y="207" width="82" height="46" rx="5" fill="#0F6E56" stroke="#085041" stroke-width="0.5"/>
+    <text class="ts" x="249" y="226" text-anchor="middle" fill="#E1F5EE">Docker</text>
+    <text class="ts" x="249" y="240" text-anchor="middle" fill="#9FE1CB">Conteneurs</text>
+    <rect x="300" y="207" width="82" height="46" rx="5" fill="#0F6E56" stroke="#085041" stroke-width="0.5"/>
+    <text class="ts" x="341" y="226" text-anchor="middle" fill="#E1F5EE">Prometheus</text>
+    <text class="ts" x="341" y="240" text-anchor="middle" fill="#9FE1CB">Grafana</text>
+    <rect x="392" y="207" width="82" height="46" rx="5" fill="#0F6E56" stroke="#085041" stroke-width="0.5"/>
+    <text class="ts" x="433" y="226" text-anchor="middle" fill="#E1F5EE">Velero</text>
+    <text class="ts" x="433" y="240" text-anchor="middle" fill="#9FE1CB">etcd backup</text>
+    <rect x="484" y="207" width="82" height="46" rx="5" fill="#0F6E56" stroke="#085041" stroke-width="0.5"/>
+    <text class="ts" x="525" y="226" text-anchor="middle" fill="#E1F5EE">Heat IaC</text>
+    <text class="ts" x="525" y="240" text-anchor="middle" fill="#9FE1CB">Auto-scale</text>
+  </g>
+  <line x1="340" y1="264" x2="340" y2="284" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- IaaS -->
+  <g class="node" onclick="sendPrompt('Explique la couche IaaS OpenStack du projet PI Cloud')">
+    <rect x="100" y="284" width="480" height="80" rx="10" fill="#E6F1FB" stroke="#185FA5" stroke-width="1.5"/>
+    <text class="th" x="200" y="304" text-anchor="middle" fill="#0C447C">IaaS</text>
+    <text class="ts" x="200" y="320" text-anchor="middle" fill="#185FA5">OpenStack</text>
+    <rect x="116" y="307" width="64" height="46" rx="5" fill="#185FA5" stroke="#0C447C" stroke-width="0.5"/>
+    <text class="ts" x="148" y="326" text-anchor="middle" fill="#E6F1FB">Nova</text>
+    <text class="ts" x="148" y="340" text-anchor="middle" fill="#B5D4F4">VMs</text>
+    <rect x="190" y="307" width="68" height="46" rx="5" fill="#185FA5" stroke="#0C447C" stroke-width="0.5"/>
+    <text class="ts" x="224" y="326" text-anchor="middle" fill="#E6F1FB">Neutron</text>
+    <text class="ts" x="224" y="340" text-anchor="middle" fill="#B5D4F4">Réseau</text>
+    <rect x="268" y="307" width="68" height="46" rx="5" fill="#185FA5" stroke="#0C447C" stroke-width="0.5"/>
+    <text class="ts" x="302" y="326" text-anchor="middle" fill="#E6F1FB">Cinder</text>
+    <text class="ts" x="302" y="340" text-anchor="middle" fill="#B5D4F4">Stockage</text>
+    <rect x="346" y="307" width="72" height="46" rx="5" fill="#185FA5" stroke="#0C447C" stroke-width="0.5"/>
+    <text class="ts" x="382" y="326" text-anchor="middle" fill="#E6F1FB">Keystone</text>
+    <text class="ts" x="382" y="340" text-anchor="middle" fill="#B5D4F4">Auth</text>
+    <rect x="428" y="307" width="68" height="46" rx="5" fill="#185FA5" stroke="#0C447C" stroke-width="0.5"/>
+    <text class="ts" x="462" y="326" text-anchor="middle" fill="#E6F1FB">Octavia</text>
+    <text class="ts" x="462" y="340" text-anchor="middle" fill="#B5D4F4">LB</text>
+    <rect x="506" y="307" width="68" height="46" rx="5" fill="#185FA5" stroke="#0C447C" stroke-width="0.5"/>
+    <text class="ts" x="540" y="326" text-anchor="middle" fill="#E6F1FB">Horizon</text>
+    <text class="ts" x="540" y="340" text-anchor="middle" fill="#B5D4F4">Dashboard</text>
+  </g>
+  <line x1="340" y1="364" x2="340" y2="384" stroke="#185FA5" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Virtualisation -->
+  <g class="node" onclick="sendPrompt('Comment KVM QEMU fonctionne comme hyperviseur dans ce projet')">
+    <rect x="100" y="384" width="480" height="44" rx="8" fill="#EAF3DE" stroke="#3B6D11" stroke-width="1"/>
+    <text class="th" x="340" y="402" text-anchor="middle" fill="#173404">Virtualisation — KVM/QEMU + libvirt</text>
+    <text class="ts" x="340" y="418" text-anchor="middle" fill="#3B6D11">Hyperviseur natif Linux · Migration à chaud · Accélération matérielle</text>
+  </g>
+  <line x1="340" y1="428" x2="340" y2="448" stroke="#3B6D11" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Physique -->
+  <rect x="100" y="448" width="480" height="44" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="1"/>
+  <text class="th" x="340" y="466" text-anchor="middle" fill="#2C2C2A">Couche physique — 6 PC Ubuntu 22.04</text>
+  <text class="ts" x="340" y="482" text-anchor="middle" fill="#5F5E5A">1 Controller (64Go) · 4 Computes · 2 Storages · Wi-Fi partagé</text>
+
+  <!-- Ansible barre latérale -->
+  <rect x="36" y="84" width="54" height="408" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+  <text class="ts" x="63" y="200" text-anchor="middle" fill="#412402" transform="rotate(-90 63 288)">Ansible SSH · Automatisation transversale</text>
+
+  <!-- Ansible flèches -->
+  <line x1="90" y1="124" x2="100" y2="124" stroke="#BA7517" stroke-width="0.8" stroke-dasharray="3 2" marker-end="url(#arrow)"/>
+  <line x1="90" y1="224" x2="100" y2="224" stroke="#BA7517" stroke-width="0.8" stroke-dasharray="3 2" marker-end="url(#arrow)"/>
+  <line x1="90" y1="324" x2="100" y2="324" stroke="#BA7517" stroke-width="0.8" stroke-dasharray="3 2" marker-end="url(#arrow)"/>
+
+  <!-- Légende flow -->
+  <text class="ts" x="340" y="538" text-anchor="middle" fill="#888780">Flux : Utilisateur → Ingress TLS → FastAPI/React → Kubernetes → OpenStack → PC physique</text>
+</svg>
+</div>
+</div>
+
+<script>
+function show(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
