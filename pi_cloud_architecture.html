@@ -1,0 +1,704 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans, 'Anthropic Sans', sans-serif); }
+
+.arch-root {
+  padding: 20px 16px 24px;
+  max-width: 100%;
+}
+
+/* Header */
+.arch-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.arch-header h1 {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  letter-spacing: -0.3px;
+}
+.arch-header .subtitle {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-top: 3px;
+}
+.arch-header .sub2 {
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+  margin-top: 2px;
+}
+
+/* Section labels */
+.layer-wrap {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  align-items: stretch;
+}
+.layer-label {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #fff;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 5px;
+  min-width: 26px;
+  flex-shrink: 0;
+}
+.layer-label.saas { background: #534AB7; }
+.layer-label.paas { background: #0F6E56; }
+.layer-label.iaas { background: #185FA5; }
+.layer-label.infra { background: #3d3d3a; }
+
+.layer-content {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Users row */
+.users-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.user-card {
+  background: var(--color-background-secondary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: 10px;
+  padding: 10px 10px 8px;
+  text-align: center;
+}
+.user-card .icon {
+  font-size: 18px;
+  margin-bottom: 4px;
+  color: var(--color-text-secondary);
+}
+.user-card .label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin-bottom: 2px;
+}
+.user-card .desc {
+  font-size: 10px;
+  color: var(--color-text-tertiary);
+  line-height: 1.3;
+}
+
+/* App web row */
+.app-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  border: 1.5px solid #AFA9EC;
+  border-radius: 12px;
+  padding: 10px 10px 8px;
+  margin-bottom: 6px;
+  background: rgba(206,203,246,0.07);
+  position: relative;
+}
+.app-row-title {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-background-primary);
+  font-size: 10px;
+  font-weight: 500;
+  color: #534AB7;
+  padding: 0 8px;
+  white-space: nowrap;
+}
+.app-chip {
+  background: var(--color-background-secondary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: 8px;
+  padding: 7px 6px;
+  text-align: center;
+}
+.app-chip .icon { font-size: 16px; margin-bottom: 3px; }
+.app-chip .name { font-size: 10px; font-weight: 500; color: var(--color-text-primary); line-height: 1.2; }
+.app-chip .tech { font-size: 9px; color: var(--color-text-tertiary); line-height: 1.3; }
+
+/* PaaS section */
+.paas-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+.paas-zone {
+  border: 1px solid;
+  border-radius: 10px;
+  padding: 8px;
+}
+.paas-zone.ctrl { border-color: #9FE1CB; background: rgba(159,225,203,0.07); }
+.paas-zone.work { border-color: #B5D4F4; background: rgba(181,212,244,0.07); }
+.paas-zone.svc  { border-color: #FAC775; background: rgba(250,199,117,0.07); }
+.paas-zone-title {
+  font-size: 10px;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 6px;
+  padding-bottom: 4px;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+}
+.paas-zone.ctrl .paas-zone-title { color: #0F6E56; }
+.paas-zone.work .paas-zone-title { color: #185FA5; }
+.paas-zone.svc  .paas-zone-title { color: #854F0B; }
+
+.ctrl-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: center;
+}
+.ctrl-chip {
+  font-size: 9px;
+  padding: 3px 7px;
+  border-radius: 6px;
+  font-weight: 500;
+  border: 0.5px solid;
+}
+.ctrl-chip.green { background: #E1F5EE; color: #085041; border-color: #9FE1CB; }
+.ctrl-chip.blue  { background: #E6F1FB; color: #0C447C; border-color: #B5D4F4; }
+
+.worker-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.worker-card {
+  background: var(--color-background-primary);
+  border: 0.5px solid #B5D4F4;
+  border-radius: 7px;
+  padding: 5px 7px;
+}
+.worker-card .wc-top {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 2px;
+}
+.wc-badge {
+  font-size: 9px;
+  font-weight: 500;
+  background: #E6F1FB;
+  color: #0C447C;
+  border-radius: 4px;
+  padding: 1px 5px;
+  flex-shrink: 0;
+}
+.wc-name {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+.wc-desc {
+  font-size: 9px;
+  color: var(--color-text-tertiary);
+}
+
+.svc-chips {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+}
+.svc-chip {
+  background: var(--color-background-primary);
+  border: 0.5px solid #FAC775;
+  border-radius: 6px;
+  padding: 4px 5px;
+  text-align: center;
+}
+.svc-chip .sn { font-size: 9px; font-weight: 500; color: #633806; }
+.svc-chip .sd { font-size: 8px; color: var(--color-text-tertiary); line-height: 1.2; }
+
+/* IaaS OpenStack */
+.openstack-wrap {
+  border: 1px solid #B5D4F4;
+  border-radius: 10px;
+  padding: 8px;
+  background: rgba(181,212,244,0.05);
+  margin-top: 8px;
+}
+.openstack-title {
+  font-size: 10px;
+  font-weight: 500;
+  color: #185FA5;
+  text-align: center;
+  margin-bottom: 6px;
+  padding-bottom: 4px;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+}
+.openstack-chips {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 5px;
+}
+.os-chip {
+  background: var(--color-background-primary);
+  border: 0.5px solid #B5D4F4;
+  border-radius: 7px;
+  padding: 5px 4px;
+  text-align: center;
+}
+.os-chip .on { font-size: 10px; font-weight: 500; color: #185FA5; }
+.os-chip .od { font-size: 8px; color: var(--color-text-tertiary); line-height: 1.2; margin-top: 2px; }
+
+/* Physical infra / PC cards */
+.pc-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+  margin-top: 8px;
+}
+.pc-card {
+  border-radius: 10px;
+  border: 1.5px solid;
+  padding: 7px;
+  transition: transform 0.15s;
+  cursor: default;
+}
+.pc-card:hover { transform: translateY(-2px); }
+.pc-card.ctrl { border-color: #534AB7; background: rgba(206,203,246,0.09); }
+.pc-card.comp { border-color: #1D9E75; background: rgba(29,158,117,0.06); }
+.pc-card.stor { border-color: #E8593C; background: rgba(232,89,60,0.06); }
+.pc-title {
+  font-size: 10px;
+  font-weight: 500;
+  margin-bottom: 1px;
+  line-height: 1.2;
+}
+.pc-card.ctrl .pc-title { color: #3C3489; }
+.pc-card.comp .pc-title { color: #085041; }
+.pc-card.stor .pc-title { color: #712B13; }
+.pc-person {
+  font-size: 9px;
+  color: var(--color-text-tertiary);
+  margin-bottom: 5px;
+}
+.pc-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-bottom: 5px;
+}
+.pc-tag {
+  font-size: 8px;
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+.pc-tag.purple { background: #EEEDFE; color: #3C3489; }
+.pc-tag.green  { background: #E1F5EE; color: #085041; }
+.pc-tag.orange { background: #FAEEDA; color: #633806; }
+.pc-tag.red    { background: #FAECE7; color: #712B13; }
+.pc-tag.blue   { background: #E6F1FB; color: #0C447C; }
+.pc-tag.gray   { background: #F1EFE8; color: #444441; }
+.pc-specs {
+  font-size: 8px;
+  color: var(--color-text-tertiary);
+  border-top: 0.5px solid var(--color-border-tertiary);
+  padding-top: 4px;
+  margin-top: 2px;
+}
+.pc-specs div { margin-bottom: 1px; }
+
+/* Side panels */
+.main-layout {
+  display: grid;
+  grid-template-columns: 1fr 160px;
+  gap: 10px;
+  align-items: start;
+}
+.side-panels {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.side-panel {
+  border-radius: 10px;
+  border: 0.5px solid;
+  padding: 8px 9px;
+}
+.side-panel.auto   { border-color: #FAC775; background: rgba(250,199,117,0.07); }
+.side-panel.sec    { border-color: #B5D4F4; background: rgba(181,212,244,0.07); }
+.side-panel.obs    { border-color: #9FE1CB; background: rgba(159,225,203,0.07); }
+.side-panel.backup { border-color: #F5C4B3; background: rgba(245,196,179,0.07); }
+.side-panel-title {
+  font-size: 10px;
+  font-weight: 500;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.side-panel.auto   .side-panel-title { color: #633806; }
+.side-panel.sec    .side-panel-title { color: #0C447C; }
+.side-panel.obs    .side-panel-title { color: #085041; }
+.side-panel.backup .side-panel-title { color: #712B13; }
+.side-item {
+  font-size: 9px;
+  color: var(--color-text-secondary);
+  margin-bottom: 3px;
+  padding-left: 8px;
+  position: relative;
+  line-height: 1.3;
+}
+.side-item::before {
+  content: '·';
+  position: absolute;
+  left: 0;
+  color: var(--color-text-tertiary);
+}
+
+/* Wifi footer */
+.wifi-bar {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding-top: 8px;
+  border-top: 0.5px dashed var(--color-border-tertiary);
+}
+
+@media (prefers-color-scheme: dark) {
+  .pc-tag.purple { background: #26215C; color: #CEC BF6; }
+  .app-row { background: rgba(175,169,236,0.06); }
+}
+</style>
+
+<div class="arch-root">
+  <div class="arch-header">
+    <h1>PI CLOUD — Architecture Globale (IaaS / PaaS / SaaS)</h1>
+    <div class="subtitle">Plateforme intelligente de suivi des ressources et de l'énergie</div>
+    <div class="sub2">Architecture distribuée sur 6 PC — 1 Controller · 3 Compute · 2 Storage</div>
+  </div>
+
+  <div class="main-layout">
+    <div>
+      <!-- USERS -->
+      <div class="users-row">
+        <div class="user-card">
+          <div class="icon"><i class="ti ti-user-graduate" aria-hidden="true"></i></div>
+          <div class="label">Étudiants</div>
+          <div class="desc">Accès aux rapports & recommandations</div>
+        </div>
+        <div class="user-card">
+          <div class="icon"><i class="ti ti-chalkboard" aria-hidden="true"></i></div>
+          <div class="label">Enseignants</div>
+          <div class="desc">Suivi, analyse & orientation</div>
+        </div>
+        <div class="user-card">
+          <div class="icon"><i class="ti ti-settings" aria-hidden="true"></i></div>
+          <div class="label">Administrateurs</div>
+          <div class="desc">Gestion plateforme, utilisateurs & ressources</div>
+        </div>
+        <div class="user-card">
+          <div class="icon"><i class="ti ti-world" aria-hidden="true"></i></div>
+          <div class="label">Accès Web</div>
+          <div class="desc">Sécurisé via HTTPS / TLS</div>
+        </div>
+      </div>
+
+      <!-- SaaS LAYER -->
+      <div class="layer-wrap">
+        <div class="layer-label saas">SaaS</div>
+        <div class="layer-content">
+          <div class="app-row">
+            <span class="app-row-title">Application Web Intelligente — Multi-Tenant</span>
+            <div class="app-chip">
+              <div class="icon"><i class="ti ti-brand-react" aria-hidden="true"></i></div>
+              <div class="name">React 18</div>
+              <div class="tech">Frontend moderne & réactif</div>
+            </div>
+            <div class="app-chip">
+              <div class="icon"><i class="ti ti-api" aria-hidden="true"></i></div>
+              <div class="name">FastAPI 0.115</div>
+              <div class="tech">Backend API REST</div>
+            </div>
+            <div class="app-chip">
+              <div class="icon"><i class="ti ti-brain" aria-hidden="true"></i></div>
+              <div class="name">Python 3.12</div>
+              <div class="tech">Modules IA & anomalies</div>
+            </div>
+            <div class="app-chip">
+              <div class="icon"><i class="ti ti-database" aria-hidden="true"></i></div>
+              <div class="name">PostgreSQL 16</div>
+              <div class="tech">Données persistantes sécurisées</div>
+            </div>
+            <div class="app-chip">
+              <div class="icon"><i class="ti ti-chart-bar" aria-hidden="true"></i></div>
+              <div class="name">Tableau de bord</div>
+              <div class="tech">Analytics, KPI & rapports</div>
+            </div>
+            <div class="app-chip">
+              <div class="icon"><i class="ti ti-robot" aria-hidden="true"></i></div>
+              <div class="name">Chatbot IA</div>
+              <div class="tech">Assistant & suggestions</div>
+            </div>
+            <div class="app-chip">
+              <div class="icon"><i class="ti ti-users" aria-hidden="true"></i></div>
+              <div class="name">Multi-Tenant</div>
+              <div class="tech">RBAC — Étudiants, Enseignants, Admins</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PaaS LAYER -->
+      <div class="layer-wrap">
+        <div class="layer-label paas">PaaS</div>
+        <div class="layer-content">
+          <div class="paas-grid">
+            <!-- Plan de contrôle -->
+            <div class="paas-zone ctrl">
+              <div class="paas-zone-title">Plan de contrôle — PC-1 (Controller)</div>
+              <div class="ctrl-chips">
+                <span class="ctrl-chip green">API Server</span>
+                <span class="ctrl-chip green">Planificateur</span>
+                <span class="ctrl-chip green">Contrôleur Manager</span>
+                <span class="ctrl-chip green">etcd Clustering</span>
+                <span class="ctrl-chip green">CoreDNS</span>
+              </div>
+            </div>
+            <!-- Nœuds Kubernetes -->
+            <div class="paas-zone work">
+              <div class="paas-zone-title">Nœuds de travail K8S / Kubernetes</div>
+              <div class="worker-cards">
+                <div class="worker-card">
+                  <div class="wc-top"><span class="wc-badge">PC-2</span><span class="wc-name">K8S Worker-1</span></div>
+                  <div class="wc-desc">Pods / Services / Conteneurs isolés</div>
+                </div>
+                <div class="worker-card">
+                  <div class="wc-top"><span class="wc-badge">PC-3</span><span class="wc-name">K8S Worker-2</span></div>
+                  <div class="wc-desc">Pods / Services / Conteneurs isolés</div>
+                </div>
+                <div class="worker-card">
+                  <div class="wc-top"><span class="wc-badge">PC-4</span><span class="wc-name">K8S Worker-3</span></div>
+                  <div class="wc-desc">Pods / Services / Conteneurs isolés</div>
+                </div>
+              </div>
+            </div>
+            <!-- Services gérés -->
+            <div class="paas-zone svc">
+              <div class="paas-zone-title">Services de plateforme gérés</div>
+              <div class="svc-chips">
+                <div class="svc-chip"><div class="sn">GitLab CI/CD</div><div class="sd">Pipelines & Registry</div></div>
+                <div class="svc-chip"><div class="sn">Prometheus</div><div class="sd">Métriques & monitoring</div></div>
+                <div class="svc-chip"><div class="sn">Grafana</div><div class="sd">Dashboards & visualisation</div></div>
+                <div class="svc-chip"><div class="sn">Alertmanager</div><div class="sd">Alertes & notifications</div></div>
+                <div class="svc-chip"><div class="sn">Loki / Promtail</div><div class="sd">Logs centralisés</div></div>
+                <div class="svc-chip"><div class="sn">Velero</div><div class="sd">Sauvegardes K8S & PV</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- IaaS OpenStack -->
+      <div class="layer-wrap">
+        <div class="layer-label iaas">IaaS</div>
+        <div class="layer-content">
+          <div class="openstack-wrap">
+            <div class="openstack-title">OpenStack 2024.1 (Caracal) — Services Cloud Privé</div>
+            <div class="openstack-chips">
+              <div class="os-chip"><div class="on">Keystone</div><div class="od">Identity & Auth — PC-1</div></div>
+              <div class="os-chip"><div class="on">Nova</div><div class="od">VMs Compute — PC-1 à PC-4</div></div>
+              <div class="os-chip"><div class="on">Neutron</div><div class="od">Réseau & Security Groups</div></div>
+              <div class="os-chip"><div class="on">Glance</div><div class="od">Images VM — PC-1</div></div>
+              <div class="os-chip"><div class="on">Cinder</div><div class="od">Stockage blocs — PC-5 & PC-6</div></div>
+              <div class="os-chip"><div class="on">Horizon</div><div class="od">Tableau de bord Web UI</div></div>
+              <div class="os-chip"><div class="on">Heat</div><div class="od">Orchestration OpenStack</div></div>
+              <div class="os-chip"><div class="on">Octavia</div><div class="od">Load Balancing — PC-1</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Physical Infra PC cards -->
+      <div class="layer-wrap" style="margin-top:8px">
+        <div class="layer-label infra" style="writing-mode:vertical-rl;transform:rotate(180deg);font-size:9px;">INFRA</div>
+        <div class="layer-content">
+          <div class="pc-grid">
+            <!-- PC-1 Controller -->
+            <div class="pc-card ctrl">
+              <div class="pc-title">PC-1 — Controller</div>
+              <div class="pc-person">Walid · 64 Go RAM · 100 Go</div>
+              <div class="pc-tags">
+                <span class="pc-tag purple">VM1 OpenStack</span>
+                <span class="pc-tag purple">VM2 K8s Control Plane</span>
+                <span class="pc-tag green">Keystone · Horizon</span>
+                <span class="pc-tag blue">Neutron · Nova</span>
+                <span class="pc-tag blue">Octavia · Heat</span>
+                <span class="pc-tag gray">Ansible Node</span>
+                <span class="pc-tag gray">Glance</span>
+                <span class="pc-tag gray">Grafana · Prometheus</span>
+                <span class="pc-tag gray">Loki · Promtail</span>
+                <span class="pc-tag gray">Velero Control</span>
+              </div>
+              <div class="pc-specs">
+                <div>Ubuntu Server 24.04 LTS</div>
+                <div>KVM / QEMU · GitLab CI/CD</div>
+              </div>
+            </div>
+
+            <!-- PC-2 Compute-1 -->
+            <div class="pc-card comp">
+              <div class="pc-title">PC-2 — Compute-1</div>
+              <div class="pc-person">Ghada · 32 Go · 250 Go</div>
+              <div class="pc-tags">
+                <span class="pc-tag green">K8s Worker</span>
+                <span class="pc-tag green">Nova Compute</span>
+                <span class="pc-tag blue">Heat · Terraform</span>
+                <span class="pc-tag blue">IaC</span>
+                <span class="pc-tag gray">Neutron Agent</span>
+                <span class="pc-tag gray">Docker · Pods</span>
+              </div>
+              <div class="pc-specs">
+                <div>Ubuntu Server 24.04 LTS</div>
+                <div>KVM / QEMU · Nova Compute</div>
+              </div>
+            </div>
+
+            <!-- PC-3 Compute-2 -->
+            <div class="pc-card comp">
+              <div class="pc-title">PC-3 — Compute-2</div>
+              <div class="pc-person">Nidhal · 24 Go · 250 Go</div>
+              <div class="pc-tags">
+                <span class="pc-tag green">K8s Worker</span>
+                <span class="pc-tag orange">Prometheus · Grafana</span>
+                <span class="pc-tag orange">Velero · etcd snap.</span>
+                <span class="pc-tag blue">Alertmanager</span>
+                <span class="pc-tag gray">Docker · Modules IA</span>
+              </div>
+              <div class="pc-specs">
+                <div>Ubuntu Server 24.04 LTS</div>
+                <div>KVM / QEMU · Nova Compute</div>
+              </div>
+            </div>
+
+            <!-- PC-4 Compute-3 -->
+            <div class="pc-card comp">
+              <div class="pc-title">PC-4 — Compute-3</div>
+              <div class="pc-person">Samah · 16 Go · 250 Go</div>
+              <div class="pc-tags">
+                <span class="pc-tag green">K8s Worker</span>
+                <span class="pc-tag blue">Ansible Playbooks</span>
+                <span class="pc-tag blue">Inventaire · Docs</span>
+                <span class="pc-tag gray">Docker · Pods</span>
+              </div>
+              <div class="pc-specs">
+                <div>Ubuntu Server 24.04 LTS</div>
+                <div>KVM / QEMU · Kubernetes Worker</div>
+              </div>
+            </div>
+
+            <!-- PC-5 Storage-1 -->
+            <div class="pc-card stor">
+              <div class="pc-title">PC-5 — Storage-1</div>
+              <div class="pc-person">Islem · 16 Go · 250 Go</div>
+              <div class="pc-tags">
+                <span class="pc-tag orange">Docker Registry</span>
+                <span class="pc-tag orange">FastAPI · React · IA</span>
+                <span class="pc-tag blue">K8s Worker · CI/CD GitLab</span>
+                <span class="pc-tag red">Cinder Backend</span>
+                <span class="pc-tag red">Stockage blocs</span>
+                <span class="pc-tag red">Sauvegardes locales</span>
+                <span class="pc-tag gray">dépôt Velero</span>
+              </div>
+              <div class="pc-specs">
+                <div>Ubuntu Server 24.04 LTS</div>
+                <div>Cinder Backend (Storage-1)</div>
+              </div>
+            </div>
+
+            <!-- PC-6 Storage-2 -->
+            <div class="pc-card stor">
+              <div class="pc-title">PC-6 — Storage-2</div>
+              <div class="pc-person">Ayoub · 16 Go · 250 Go</div>
+              <div class="pc-tags">
+                <span class="pc-tag green">K8s Worker · Pods app</span>
+                <span class="pc-tag orange">Tests QA · Validation</span>
+                <span class="pc-tag blue">Nova Compute · VMs invitées</span>
+                <span class="pc-tag red">Cinder Backend</span>
+                <span class="pc-tag red">Stockage blocs · Snapshots</span>
+                <span class="pc-tag gray">Support reprise</span>
+                <span class="pc-tag gray">Copies de sauvegarde</span>
+              </div>
+              <div class="pc-specs">
+                <div>Ubuntu Server 24.04 LTS</div>
+                <div>Cinder Backend (Storage-2)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wifi -->
+      <div class="wifi-bar">
+        <i class="ti ti-wifi" aria-hidden="true"></i>
+        Réseau Wi-Fi partagé — Point d'accès commun (Ansible SSH)
+      </div>
+    </div>
+
+    <!-- SIDE PANELS -->
+    <div class="side-panels">
+      <div class="side-panel auto">
+        <div class="side-panel-title"><i class="ti ti-settings-automation" aria-hidden="true" style="font-size:13px"></i> Automatisation</div>
+        <div class="side-item">Ansible (piloté sur PC-1)</div>
+        <div class="side-item">Automatisation des déploiements</div>
+        <div class="side-item">Configurations & opérations</div>
+        <div class="side-item">Via SSH (agents)</div>
+        <div class="side-item">Hébergé sur PC-1</div>
+      </div>
+
+      <div class="side-panel sec">
+        <div class="side-panel-title"><i class="ti ti-shield-lock" aria-hidden="true" style="font-size:13px"></i> Sécurité</div>
+        <div class="side-item">Keystone (RBAC)</div>
+        <div class="side-item">Kubernetes RBAC</div>
+        <div class="side-item">Security Groups (FW)</div>
+        <div class="side-item">Pare-feu / UFW</div>
+        <div class="side-item">Segmentation réseau</div>
+        <div class="side-item">Chiffrement Tenant/Stockage</div>
+        <div class="side-item">TLS / HTTPS</div>
+        <div class="side-item">Kubernetes Secrets</div>
+      </div>
+
+      <div class="side-panel obs">
+        <div class="side-panel-title"><i class="ti ti-eye" aria-hidden="true" style="font-size:13px"></i> Supervision & Observabilité</div>
+        <div class="side-item">Prometheus (Métriques)</div>
+        <div class="side-item">Grafana (Dashboards)</div>
+        <div class="side-item">Alertmanager (Alertes)</div>
+        <div class="side-item">Loki + Promtail (Logs)</div>
+        <div class="side-item">Surveillance multi-système & K8S</div>
+        <div class="side-item">Hébergé sur PC-1</div>
+      </div>
+
+      <div class="side-panel backup">
+        <div class="side-panel-title"><i class="ti ti-device-floppy" aria-hidden="true" style="font-size:13px"></i> Sauvegarde & Restauration</div>
+        <div class="side-item">Velero (Backups K8S)</div>
+        <div class="side-item">S-2-1 Stratégie (Off-site / Warm / Cold)</div>
+        <div class="side-item">Cinder Snapshots</div>
+        <div class="side-item">Sauvegarde centralisée OpenStack</div>
+        <div class="side-item">Storage-1 : PC-5</div>
+        <div class="side-item">Storage-2 : PC-6</div>
+        <div class="side-item">Copies de sauvegarde</div>
+      </div>
+    </div>
+  </div>
+</div>
